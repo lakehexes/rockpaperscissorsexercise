@@ -2,20 +2,94 @@
 
 <html lang="en">
     <head>
-        <title>Rock paper scissors</title>
+        <title>The Bridge</title>
         <meta charset="utf-8">
+        <link href="style.css" rel="stylesheet">
     </head>
 
     <body>
+      <h1>The Bridge</h1>
+      <div class="mainArea">
+       <p class="introText"> Near the end of a long summer's journey you reach a bridge. </p>
+       <p class="introText">A mouse lives there who says, I have been waiting for you. Tell me what is in my heart and I will show you the way to my kingdom</p>     
+        
+        
+       
+       <div class ="buttons">
+            <button id="rock">Silver</button>
+            <button id="paper">Milk</button>
+            <button id="scissors">Fire</button>
+        </div>
+            <p class="result results"></p>
+            <!-- <p class="scores results"></p>  -->
+        <div class ="buttons">
+            <button class ="buttons reckoning" id="reckoning">Reckoning</button>
+        </div>
+            <p class="gameOver results"></p>
+        </div>
+        
         <script>
 
             let playerPoints = 0;
             let computerPoints = 0;
             let ties = 0;
-            let roundsTotal;
+            let numberofRounds=3;   
+            let roundsTotal=1;
+            
+
+
+            // Start the game by pushing a button 
+            const buttons = document.querySelectorAll("button");
+            buttons.forEach(button => button.addEventListener("click", function(e) {setupGameState(e.target.id)})); 
+
+            function setupGameState (playerSelection) {
+
+                //checks how many rounds have been played and administers game
+        
+
+                if (roundsTotal<numberofRounds) {
+                    let computerSelection = computerPlay();
+                    let result = playRound(playerSelection, computerSelection);
+                    let resultText= "Attempt " + roundsTotal+ ":\n" + result;
+                    console.log(resultText);
+
+                    document.querySelector(".result").textContent = resultText;
+
+                    let scoresText= "Player: "+ playerPoints + " Computer: " +computerPoints+ " Ties: " + ties;
+                    console.log(scoresText);
+                    //document.querySelector(".scores").textContent = scoresText;
+
+                    roundsTotal++;
+
+                }
+                else if (roundsTotal==numberofRounds) {
+                    let computerSelection = computerPlay();
+                    let result = playRound(playerSelection, computerSelection);
+                    let resultText= "Final attempt: " + result;
+                    console.log(resultText);
+
+                    document.querySelector(".result").textContent = resultText;
+
+                    //let scoresText= "Player: "+ playerPoints + " Computer: " +computerPoints+ " Ties: " + ties;
+                    //console.log(scoresText);
+                    //document.querySelector(".scores").textContent = scoresText;
+
+                    roundsTotal++;
+                    document.querySelector(".reckoning").style.visibility = "visible"; //makes 'reckoning' button visible to end game
+                   
+                    
+                }
+                else if (playerSelection=="reckoning") {
+                    // end game if 'reckoning' button is pressed
+                    getGameResult ();
+                }
+
+                }
 
             function computerPlay () {
-                
+
+            //returns computer's choice
+            
             let randomOutput, randomOutputNum  
                 //generate random number from 1-3
                     //generate random number from 0-1, times it by 3 add 1 and round down. This makes sure if the first return is 0 we get 1. 
@@ -45,93 +119,85 @@
 
             function playRound(playerSelection, computerSelection) {
 
-            //make player input case insensitive
-            playerSelection = playerSelection.toLowerCase();
-            console.log(playerSelection);
+                //works out who wins a round and displays message
+
 
             //if player selection is rock
             if (playerSelection=="rock") {
                    if (computerSelection=="rock") {
                        ties++;
-                        return ("Oh no! Rock and rock! A tie!");
+                        return ("'Hmm' the mouse says, bored. 'No I wasn't thinking of silver at all.'");
                     }
                     else if (computerSelection=="paper") {
                         computerPoints++;
-                        return ("You lose! Paper beats rock.");
+                        return ("'No,' the mouse says. 'I was thinking about milk. I cannot believe you would think of silver.'");
                     }
                     else if (computerSelection=="scissors") {
                         playerPoints++;
-                        return ("Yon win! Scisssors beat rock.");
+                        return ("Silver. Exactly right.");
                     }
             }
             else if (playerSelection=="paper") {
                    if (computerSelection=="rock") {
                        playerPoints++;
-                        return ("You win! Paper beats rock");
+                        return ("Milk. Exactly right.");
                     }
                     else if (computerSelection=="paper") {
                         ties++;
-                        return ("A tie! Paper and paper!");
+                        return ("'Hmm' the mouse says, bored. 'No I wasn't thinking of milk at all.'");
                     }
                     else if (computerSelection=="scissors") {
                         computerPoints++;
-                        return ("Yon lose! Scisssors beat paper.");
+                        return ("'No,' the mouse says. 'I was thinking about fire. I cannot believe you would think of milk.'");
                     }
             } 
             else if (playerSelection=="scissors") {
                    if (computerSelection=="rock") {
                         computerPoints++;
-                        return ("You lose! Rock beats scissors");
+                        return ("'No,' the mouse says. 'I was thinking about milk. I cannot believe you would think of fire.'");
                     }
                     else if (computerSelection=="paper") {
                         playerPoints++;
-                        return ("You win! Scissors beat paper");
+                        return ("Fire. Exactly right.");
                     }
                     else if (computerSelection=="scissors") {
                         ties++;
-                        return ("A tie! Scissors against scissors!");
+                        return ("'Hmm' the mouse says, bored. 'No I wasn't thinking of fire at all.");
                     }
             } 
             
             }
             
-            
 
-          /*   console.log(playerSelection + computerSelection);
-            console.log(playRound(playerSelection, computerSelection));
-            console.log(playerPoints, computerPoints); */
+
                    
-        function game (roundsTotal) {
+        function getGameResult() {
+
+            // at end of game, works out winner and shows winning message
+
+
+                let gameOverText;
+
+                if (playerPoints> computerPoints) {
+                    gameOverText="The mouse looks at you for a long time. 'You know what it is in my heart' the mouse says and shows you the way to their kingdom.";
+                }
+                else if (playerPoints< computerPoints) {
+                    gameOverText="'Ive been very disturbed by what you have revealed,' the mouse says. Everything goes black. You fall to the ground.";
+                }
+                else if (playerPoints==computerPoints) {
+                    gameOverText="'You don't seem to know much' the mouse says, turning away. You go back this path many times but never see the bridge again.";
+                }
+
+
+                document.querySelector(".gameOver").textContent = gameOverText
+
+                }
+
             
-            for (let i= 0; i<roundsTotal; i++) {
-                let computerSelection = computerPlay();
-                let playerSelection = window.prompt("Please enter rock, paper or scissors");
-                if(playerSelection) {
-                playerSelection = playerSelection.toLowerCase();
-                if (playerSelection == "rock" | playerSelection == "paper" | playerSelection =="scissors") {
-                    playRound(playerSelection, computerSelection);
-                }
-                else {
-                    window.alert("That's not a valid response.");
-                    //don't want this to take up one turn
-                    i--; 
-                }
-                }
-                else {
-                    window.alert("Qutting round.");
-                          i=roundsTotal;
-                }
-
-            }
-            console.log("Player: "+ playerPoints, "Computer: " +computerPoints, "Ties: " + ties);
-            
-            //clear scores
-            playerPoints=0;
-            computerPoints=0;
-
-        }   
-
 
         </script>
-    </body>
+
+       
+
+</body>
 </html>

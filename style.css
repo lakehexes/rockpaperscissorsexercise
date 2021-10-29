@@ -1,0 +1,65 @@
+body {
+    background-color: white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background-image:url("bgImageBridge.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+   
+    
+  }
+ .mainArea {
+     display: flex;
+     flex-direction: column;
+   
+    
+  
+
+ }
+  
+  p {
+    color:dimgray;
+    
+  }
+  
+  h1{
+    color:dimgray;
+    background-color: white;
+  } 
+   
+  .gameOver {
+    font-weight:bold;
+  
+  }
+  button {
+    margin:10px;
+    font-size:120%;
+    }
+
+.introText, .results {
+    margin-left:30%;
+    margin-right:30%;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+   
+    background-color: white;
+
+}
+
+.introText {
+  padding-top:10px;
+  padding-bottom: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.reckoning {
+  visibility: hidden;
+}
